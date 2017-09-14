@@ -240,6 +240,9 @@
 
         var scrollFunc = function (e) {
             e = e || window.event;
+            if(!isHidden(main_nav)){
+                main_nav.setAttribute('class', 'main_nav_wrap')
+            }
             if (e.wheelDelta) {  //判断浏览器IE，谷歌滑轮事件               
                 if (e.wheelDelta > 0) { //当滑轮向上滚动时
                     showNav();
@@ -260,7 +263,7 @@
                 }
             }
         }
-        
+
         //给页面绑定滑轮滚动事件  
         if (document.addEventListener) {//firefox  
             document.addEventListener('DOMMouseScroll', scrollFunc, false);
