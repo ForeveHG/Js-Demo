@@ -110,12 +110,12 @@
             .logn_img {
                 margin-right: 0.5rem;
             }
-            .main_nav_wrap{
-                display:none;
+            .main_nav_wrap {
+                display: none;
             }
             .main_nav_list {
                 position: absolute;
-                top:4rem;
+                top: 4rem;
                 display: flex;
                 flex-direction: column;
                 background: #fff;
@@ -128,9 +128,9 @@
                 padding: 0;
                 border-bottom: 1px solid #d9d9d9;
             }
-            .main_nav_list li a{
-                width:100%;
-                text-align:center;
+            .main_nav_list li a {
+                width: 100%;
+                text-align: center;
             }
             .phone_nav {
                 display: block;
@@ -140,79 +140,15 @@
             .content_wrap {
                 max-width: 100%;
             }
+            .show_nav {
+                display: block;
+            }
+            .hide_nav {
+                display: none;
+            }
         }
     </style>
-    <script type="text/javascript">
-        window.onload = function () {
-            var nav = document.getElementById('nav');
-            var contentNav = document.getElementById('content_nav');
-            var navClassName = nav.getAttribute("class");
-            var contentNavClassName = contentNav.getAttribute("class");
-            var phone_nav = document.getElementById("phone_nav");
-            var main_nav = document.getElementById('main_nav_wrap');
-            phone_nav.addEventListener('click',menuFn,false);
-            document.addEventListener('click',function(){
-                if(main_nav.style.display == 'block'){
-                    main_nav.style.display = 'none';
-                }
-                console.log(main_nav.style.display)
-            },false)
-            function menuFn(event){
-                event.stopPropagation();
-                var state = main_nav.style.display;
-                console.log(state)
-                if(state == 'none' || state == ''){
-                    main_nav.style.display = 'block'
-                }else{
-                    main_nav.style.display = 'none'
-                }
-            }
-            var showNav = function () {
-                console.log("showNav")
-                if (nav) {
-                    nav.setAttribute('class', 'nav');
-                    contentNav.setAttribute('class', 'content_nav');
-                }
-            }
-            var hideNav = function () {
-                console.log("hideNav")
-                if (nav) {
-                    let classVal = navClassName.concat(' slide_hide');
-                    let classContentNav = contentNavClassName.concat(' top');
-                    nav.setAttribute('class', classVal);
-                    contentNav.setAttribute('class', classContentNav);
-                }
-            }
-            var scrollFunc = function (e) {
-                e = e || window.event;
-                if (e.wheelDelta) {  //判断浏览器IE，谷歌滑轮事件               
-                    if (e.wheelDelta > 0) { //当滑轮向上滚动时
-                        showNav();
-                        // console.log("滑轮向上滚动",e.wheelDelta);  
-                    }
-                    if (e.wheelDelta < 0) { //当滑轮向下滚动时 
-                        hideNav();
-                        // console.log("滑轮向下滚动",e.wheelDelta);  
-                    }
-                } else if (e.detail) {  //Firefox滑轮事件 在火狐中e.detail为负值时是向上滚动，正值是向下滚动 
-                    if (e.detail < 0) { //当滑轮向上滚动时  
-                        showNav();
-                        // console.log("滑轮向上滚动",e.detail);  
-                    }
-                    if (e.detail > 0) { //当滑轮向下滚动时  
-                        hideNav();
-                        // console.log("滑轮向下滚动",e.detail);  
-                    }
-                }
-            }
-            //给页面绑定滑轮滚动事件  
-            if (document.addEventListener) {//firefox  
-                document.addEventListener('DOMMouseScroll', scrollFunc, false);
-            }
-            //滚动滑轮触发scrollFunc方法  //ie 谷歌  
-            window.onmousewheel = document.onmousewheel = scrollFunc;
-        }
-    </script>
+
 </head>
 
 <body>
@@ -246,7 +182,7 @@
             <nav class="content_nav" id="content_nav"></nav>
             <div>
                 <ul>
-                    <li>JavaScript 前端</li>
+                    <li>25 个最基本的 JavaScript 面试问题及答案</li>
                     <li>JavaScript 前端</li>
                     <li>JavaScript 前端</li>
                     <li>JavaScript 前端</li>
@@ -255,5 +191,83 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        var nav = document.getElementById('nav');
+        var contentNav = document.getElementById('content_nav');
+        var phone_nav = document.getElementById("phone_nav");
+        var main_nav = document.getElementById('main_nav_wrap');
+
+        var navClassName = nav.getAttribute("class");
+        var contentNavClassName = contentNav.getAttribute("class");
+        var mainNavClassName = main_nav.getAttribute("class");
+
+        var isHidden = function (element) {   //判断元素是否隐藏,ie和opera不兼容
+            return (element.offsetParent === null);
+        };
+
+        document.addEventListener('click', function () {
+            if(!isHidden(main_nav)){
+                main_nav.setAttribute('class', 'main_nav_wrap')
+            }
+        }, false);
+
+        phone_nav.addEventListener('click', menuFn, false);
+        function menuFn(event) {
+            event.stopPropagation();
+            if(isHidden(main_nav)){
+                let classVal = mainNavClassName.concat(' show_nav');
+                main_nav.setAttribute('class', classVal)
+            }else{
+                main_nav.setAttribute('class', 'main_nav_wrap')
+            }
+        }
+
+        var showNav = function () {
+            if (nav) {
+                nav.setAttribute('class', 'nav');
+                contentNav.setAttribute('class', 'content_nav');
+            }
+        }
+
+        var hideNav = function () {
+            if (nav) {
+                let classVal = navClassName.concat(' slide_hide');
+                let classContentNav = contentNavClassName.concat(' top');
+                nav.setAttribute('class', classVal);
+                contentNav.setAttribute('class', classContentNav);
+            }
+        }
+
+        var scrollFunc = function (e) {
+            e = e || window.event;
+            if (e.wheelDelta) {  //判断浏览器IE，谷歌滑轮事件               
+                if (e.wheelDelta > 0) { //当滑轮向上滚动时
+                    showNav();
+                    // console.log("滑轮向上滚动",e.wheelDelta);  
+                }
+                if (e.wheelDelta < 0) { //当滑轮向下滚动时 
+                    hideNav();
+                    // console.log("滑轮向下滚动",e.wheelDelta);  
+                }
+            } else if (e.detail) {  //Firefox滑轮事件 在火狐中e.detail为负值时是向上滚动，正值是向下滚动 
+                if (e.detail < 0) { //当滑轮向上滚动时  
+                    showNav();
+                    // console.log("滑轮向上滚动",e.detail);  
+                }
+                if (e.detail > 0) { //当滑轮向下滚动时  
+                    hideNav();
+                    // console.log("滑轮向下滚动",e.detail);  
+                }
+            }
+        }
+        
+        //给页面绑定滑轮滚动事件  
+        if (document.addEventListener) {//firefox  
+            document.addEventListener('DOMMouseScroll', scrollFunc, false);
+        }
+        //滚动滑轮触发scrollFunc方法  //ie 谷歌  
+        window.onmousewheel = document.onmousewheel = scrollFunc;
+    </script>
 </body>
+
 </html>
