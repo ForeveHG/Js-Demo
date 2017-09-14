@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <title>鼠标滚轮事件</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 12px;
+            font-family: -apple-system, PingFang SC, Hiragino Sans GB, Arial, Microsoft YaHei, Helvetica Neue, sans-serif;
+            text-rendering: optimizeLegibility;
+            background-color: #f4f5f5;
+            color: #333;
+            word-break: break-word;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .wrap {
+            width: 100%;
+            background: #f4f4f4;
+        }
+
+        .nav {
+            height: 5rem;
+            width: 100%;
+            background: #fff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-bottom: 1px solid #eee;
+            transition: all .2s;
+            transform: translate3d(0, 0, 0);
+            z-index: 2
+        }
+
+        .header_wrap {
+            height: 5rem;
+        }
+
+        .content_wrap {
+            height: 2000px;
+            max-width: 960px;
+            background: #fff;
+            margin: 5.6rem auto 0;
+        }
+
+        .slide_hide {
+            transition: all .2s;
+            transform: translate3d(0, -100%, 0);
+        }
+
+        .containter {
+            max-width: 960px;
+            margin: auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .logn_img {
+            margin-right: 2rem;
+        }
+
+        .main_nav_list {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .main_nav_list li {
+            height: 5rem;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            font-size: 1.33rem;
+        }
+
+        .content_nav {
+            width: 100%;
+            height: 3rem;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            position: fixed;
+            top: 5rem;
+            left: 0;
+            transition: all .2s;
+            transform: translate3d(0, 0, 0);
+        }
+
+        .content_nav.top {
+            transition: all .2s;
+            transform: translate3d(0, -5rem, 0);
+        }
+
+        .phone_nav {
+            display: none;
+            width: 5rem;
+            text-align: center;
+        }
+
+        @media (max-width: 980px) {
+            .logn_img {
+                margin-right: 0.5rem;
+            }
+            .main_nav_wrap{
+                display:none;
+            }
+            .main_nav_list {
+                position: absolute;
+                top:4rem;
+                display: flex;
+                flex-direction: column;
+                background: #fff;
+                border: 1px solid #d9d9d9;
+                border-radius: 5px;
+                width: 5rem;
+            }
+            .main_nav_list li {
+                height: 4rem;
+                padding: 0;
+                border-bottom: 1px solid #d9d9d9;
+            }
+            .main_nav_list li a{
+                width:100%;
+                text-align:center;
+            }
+            .phone_nav {
+                display: block;
+                font-size: 1.33rem;
+                color: #3272f2;
+            }
+            .content_wrap {
+                max-width: 100%;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function () {
+            var nav = document.getElementById('nav');
+            var contentNav = document.getElementById('content_nav');
+            var navClassName = nav.getAttribute("class");
+            var contentNavClassName = contentNav.getAttribute("class");
+            var phone_nav = document.getElementById("phone_nav");
+            var main_nav = document.getElementById('main_nav_wrap');
+            phone_nav.addEventListener('click',menuFn,false);
+            document.addEventListener('click',function(){
+                if(main_nav.style.display == 'block'){
+                    main_nav.style.display = 'none';
+                }
+                console.log(main_nav.style.display)
+            },false)
+            function menuFn(event){
+                event.stopPropagation();
+                var state = main_nav.style.display;
+                console.log(state)
+                if(state == 'none' || state == ''){
+                    main_nav.style.display = 'block'
+                }else{
+                    main_nav.style.display = 'none'
+                }
+            }
+            var showNav = function () {
+                console.log("showNav")
+                if (nav) {
+                    nav.setAttribute('class', 'nav');
+                    contentNav.setAttribute('class', 'content_nav');
+                }
+            }
+            var hideNav = function () {
+                console.log("hideNav")
+                if (nav) {
+                    let classVal = navClassName.concat(' slide_hide');
+                    let classContentNav = contentNavClassName.concat(' top');
+                    nav.setAttribute('class', classVal);
+                    contentNav.setAttribute('class', classContentNav);
+                }
+            }
+            var scrollFunc = function (e) {
+                e = e || window.event;
+                if (e.wheelDelta) {  //判断浏览器IE，谷歌滑轮事件               
+                    if (e.wheelDelta > 0) { //当滑轮向上滚动时
+                        showNav();
+                        // console.log("滑轮向上滚动",e.wheelDelta);  
+                    }
+                    if (e.wheelDelta < 0) { //当滑轮向下滚动时 
+                        hideNav();
+                        // console.log("滑轮向下滚动",e.wheelDelta);  
+                    }
+                } else if (e.detail) {  //Firefox滑轮事件 在火狐中e.detail为负值时是向上滚动，正值是向下滚动 
+                    if (e.detail < 0) { //当滑轮向上滚动时  
+                        showNav();
+                        // console.log("滑轮向上滚动",e.detail);  
+                    }
+                    if (e.detail > 0) { //当滑轮向下滚动时  
+                        hideNav();
+                        // console.log("滑轮向下滚动",e.detail);  
+                    }
+                }
+            }
+            //给页面绑定滑轮滚动事件  
+            if (document.addEventListener) {//firefox  
+                document.addEventListener('DOMMouseScroll', scrollFunc, false);
+            }
+            //滚动滑轮触发scrollFunc方法  //ie 谷歌  
+            window.onmousewheel = document.onmousewheel = scrollFunc;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="header_wrap">
+            <header class="nav" id="nav">
+                <div class="containter">
+                    <a class="logn_img" href="/">
+                    <img src="https://gold-cdn.xitu.io/v3/static/img/logo.a7995ad.svg"/>
+                </a>
+                    <nav>
+                        <div class="nav_list">
+                            <div class="phone_nav" id="phone_nav">
+                                <p>首页V</p>
+                            </div>
+                            <div class="main_nav_wrap" id="main_nav_wrap">
+                                <ul class="main_nav_list">
+                                    <li><a>首页</a></li>
+                                    <li><a>专栏</a></li>
+                                    <li><a>收藏集</a></li>
+                                    <li><a>发现</a></li>
+                                    <li><a>开源库</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </header>
+        </div>
+        <div class="content_wrap">
+            <nav class="content_nav" id="content_nav"></nav>
+            <div>
+                <ul>
+                    <li>25 个最基本的 JavaScript 面试问题及答案</li>
+                    <li>JavaScriptjQuery前端</li>
+                    <li>JavaScriptjQuery前端</li>
+                    <li>JavaScriptjQuery前端</li>
+                    <li>JavaScriptjQuery前端</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
