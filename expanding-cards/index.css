@@ -1,0 +1,35 @@
+html,body {
+  height: 100%;
+}
+.container {
+  display: flex;
+  height: 100%;
+  padding: 10vh 5vw;
+  box-sizing: border-box;
+}
+.card {
+  position: relative;
+  flex: 0.5;
+  height: 100%;
+  margin: 0 10px;
+  border-radius: 50px;
+  background-position: center;
+  background-size: cover;
+  transition: flex .7s ease-in;
+}
+.card h3 {
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  color: #fff;
+  opacity: 0;
+  transition: opacity .3s ease-in 0.4s;
+}
+
+.active {
+  flex: 5;
+}
+
+.active h3 {
+  opacity: 1;
+}
