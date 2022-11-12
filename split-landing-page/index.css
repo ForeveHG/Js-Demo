@@ -1,0 +1,73 @@
+* {
+  padding: 0;
+  margin: 0;
+
+}
+html,body,.container {
+  height: 100%;
+}
+:root {
+  --hover-width: 75%;
+}
+.container {
+  position: relative;
+}
+.left, .right {
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  transition: width 1000ms ease-in-out;
+}
+.left::before,.right::before {
+  content: '';
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+.left {
+  left: 0;
+  background-image: url(https://50projects50days.com/projects/split-landing-page/ps.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.left::before {
+  background-color: rgba(87, 84, 236, 0.7);
+}
+.right {
+  right: 0;
+  background-image: url(https://50projects50days.com/projects/split-landing-page/xbox.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.right::before {
+  background-color: rgba(43, 43, 43, 0.8);
+}
+.hover-left .left, .hover-right .right {
+  width: 75%
+}
+.hover-left .right, .hover-right .left {
+  width: 25%
+}
+.title {
+  position: absolute;
+  left: 50%;
+  top:35%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  font-size: 50px;
+  font-weight: 600;
+  color: #fff;
+}
+.button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 25px;
+  white-space: nowrap;
+  font-size: 28px;
+  font-weight: 500;
+  color: #fff;
+  border: 2px solid #fff;
+}
